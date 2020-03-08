@@ -172,5 +172,5 @@ function showCars(cars){
 }
 
 function carFilter(){
-    
+    const result=getCars().filter(car=>car.marca===dataForSearch.brand)
 }

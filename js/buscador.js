@@ -142,7 +142,8 @@ let dataForSearch={
     brand:'',
     model:'',
     year:'',
-    price:'',
+    minimum:'',
+    maximum:'',
     doors:'',
     color:'',
     transmission:''
@@ -165,6 +166,16 @@ document.querySelector('#year').addEventListener('input',(e)=>{
     carFilter()
 })
 
+document.querySelector('#minimo').addEventListener('input',(e)=>{
+    dataForSearch.minimum=Number(e.target.value) 
+    carFilter()
+})
+
+document.querySelector('#maximo').addEventListener('input',(e)=>{
+    dataForSearch.maximum=Number(e.target.value) 
+    carFilter()
+})
+
 function showCars(cars){
     const resultsContainer=document.getElementById('resultado')
     while (resultsContainer.firstChild) {
@@ -180,7 +191,7 @@ function showCars(cars){
 
 function carFilter(){
     //brand and year filter are applied
-    const result=getCars().filter(brand).filter(year)
+    const result=getCars().filter(brand).filter(year).filter(minimum).filter(maximum)
     result?showCars(result):alert('nu hay nada')
 }
 
@@ -192,3 +203,7 @@ const brand = car=>{return dataForSearch.brand?car.marca===dataForSearch.brand:c
 //a year then this function retun an array filtered by year, otherwise this function returns the 
 //original array
 const year=car=>{return dataForSearch.year?car.year===dataForSearch.year:car}
+
+const minimum=car=>{return dataForSearch.minimum?car.precio>=dataForSearch.minimum:car}
+
+const maximum=car=>{return dataForSearch.maximum?car.precio<=dataForSearch.maximum:car}

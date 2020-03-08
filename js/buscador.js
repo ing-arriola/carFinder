@@ -138,10 +138,26 @@ function getCars(){
     ]
 }
 
+let dataForSearch={
+    brand:'',
+    model:'',
+    year:'',
+    price:'',
+    doors:'',
+    color:'',
+    transmission:''
+}
+
 const cars=getCars()
 
 document.addEventListener('DOMContentLoaded',()=>{
     showCars(cars)
+})
+
+//event listener for filters
+document.querySelector('#marca').addEventListener('input',(e)=>{
+    dataForSearch.brand=e.target.value
+    carFilter()
 })
 
 function showCars(cars){
@@ -153,4 +169,8 @@ function showCars(cars){
         ${car.marca} - ${car.modelo} - ${car.year} - ${car.transmision} - ${car.color} Precio: ${car.precio}`
         resultsContainer.appendChild(carToRender)
     });
+}
+
+function carFilter(){
+    
 }

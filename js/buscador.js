@@ -176,6 +176,23 @@ document.querySelector('#maximo').addEventListener('input',(e)=>{
     carFilter()
 })
 
+document.querySelector('#puertas').addEventListener('input',(e)=>{
+    dataForSearch.doors=Number(e.target.value) 
+    carFilter()
+})
+
+document.querySelector('#transmision').addEventListener('input',(e)=>{
+    dataForSearch.transmission=e.target.value 
+    carFilter()
+})
+
+document.querySelector('#color').addEventListener('input',(e)=>{
+    dataForSearch.color=e.target.value 
+    carFilter()
+})
+
+
+//Show cars that meets filters
 function showCars(cars){
     const resultsContainer=document.getElementById('resultado')
     while (resultsContainer.firstChild) {
@@ -190,9 +207,21 @@ function showCars(cars){
 }
 
 function carFilter(){
-    //brand and year filter are applied
-    const result=getCars().filter(brand).filter(year).filter(minimum).filter(maximum)
-    result?showCars(result):alert('nu hay nada')
+    //all the filters are applied
+    const result=getCars().filter(brand).filter(year).filter(minimum).filter(maximum).filter(doors).filter(transmission).filter(color)
+    //if there are results show them, otherwise show not found message
+    result.length?showCars(result):noResultsFounded()
+}
+
+function noResultsFounded(){
+    const resultsContainer=document.getElementById('resultado')
+    while (resultsContainer.firstChild) {
+        resultsContainer.removeChild(resultsContainer.firstChild)
+    }
+    let notFoundMessage=document.createElement('p')
+    notFoundMessage.classList.add('alerta','error')
+    notFoundMessage.textContent='There are no results with the given specifications'
+    resultsContainer.appendChild(notFoundMessage)
 }
 
 //if the user has called the brand filter then this returns an array filter by brand
@@ -207,3 +236,9 @@ const year=car=>{return dataForSearch.year?car.year===dataForSearch.year:car}
 const minimum=car=>{return dataForSearch.minimum?car.precio>=dataForSearch.minimum:car}
 
 const maximum=car=>{return dataForSearch.maximum?car.precio<=dataForSearch.maximum:car}
+
+const doors=car=>{return dataForSearch.doors?car.puertas===dataForSearch.doors:car}
+
+const transmission=car=>{return dataForSearch.transmission?car.transmision==dataForSearch.transmission:car}
+
+const color=car=>{return dataForSearch.color?car.color===dataForSearch.color:car}

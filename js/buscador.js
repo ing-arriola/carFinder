@@ -160,9 +160,16 @@ document.querySelector('#marca').addEventListener('input',(e)=>{
     carFilter()
 })
 
+document.querySelector('#year').addEventListener('input',(e)=>{
+    dataForSearch.year=Number(e.target.value) 
+    carFilter()
+})
+
 function showCars(cars){
     const resultsContainer=document.getElementById('resultado')
-
+    while (resultsContainer.firstChild) {
+        resultsContainer.removeChild(resultsContainer.firstChild)
+    }
     cars.forEach(car => {
         let carToRender=document.createElement('p')
         carToRender.textContent=`
@@ -172,5 +179,16 @@ function showCars(cars){
 }
 
 function carFilter(){
-    const result=getCars().filter(car=>car.marca===dataForSearch.brand)
+    //brand and year filter are applied
+    const result=getCars().filter(brand).filter(year)
+    result?showCars(result):alert('nu hay nada')
 }
+
+//if the user has called the brand filter then this returns an array filter by brand
+//otherwise this returns an array without any filter
+const brand = car=>{return dataForSearch.brand?car.marca===dataForSearch.brand:car}
+//if the user already specified a brand this function received an array with the filter of
+//brand otherwise this function receives an array without any fiter and if the user has specified
+//a year then this function retun an array filtered by year, otherwise this function returns the 
+//original array
+const year=car=>{return dataForSearch.year?car.year===dataForSearch.year:car}
